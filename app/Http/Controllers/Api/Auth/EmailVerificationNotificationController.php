@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use Illuminate\Http\Request;
 
 class EmailVerificationNotificationController extends Controller
@@ -12,14 +11,18 @@ class EmailVerificationNotificationController extends Controller
     /**
      * Send a new email verification notification.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return new ApiSuccessResponse([
+                'message' => 'Email already verified'
+            ]);
         }
 
         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with('status', 'verification-link-sent');
+        return new ApiSuccessResponse([
+            'message' => 'Email verification link sent on your email'
+        ]);
     }
 }
