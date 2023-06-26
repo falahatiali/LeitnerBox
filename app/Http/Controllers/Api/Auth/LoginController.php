@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\Api\User\UserResource;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class LoginController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ],[
-            'user' => $user
+            'user' => new UserResource($user)
         ]);
     }
 }
