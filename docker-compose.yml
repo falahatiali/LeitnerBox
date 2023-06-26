@@ -55,7 +55,6 @@ services:
         networks:
             - leitner
         depends_on:
-            - leitner
             - leitner-mysql
 
     leitner-mysql:
