@@ -44,6 +44,19 @@ services:
             - leitner-mysql
             - leitner-redis
 
+    scheduler:
+        build:
+            context: .
+            dockerfile: scheduler.dockerfile
+        container_name: scheduler
+        volumes:
+            - '.:/var/www/html'
+        restart: unless-stopped
+        networks:
+            - leitner
+        depends_on:
+            - leitner-mysql
+
     leitner-mysql:
         image: 'mysql/mysql-server:8.0'
         container_name: leitner-mysql
@@ -79,6 +92,16 @@ services:
             retries: 3
             timeout: 5s
 
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mailhog
+        logging:
+            driver: 'none'
+        ports:
+            - "8003:1025"
+            - "8100:8025"
+        networks:
+            - leitner
 
 networks:
     leitner:
