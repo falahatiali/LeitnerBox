@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +25,10 @@ Route::middleware('auth')->group(function () {
 
 //    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
 //        ->name('password.confirm');
-//
+
 //    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-//
+
 //    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-//
-//    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-//        ->name('logout');
+
+    Route::post('logout', LogoutController::class)->name('logout');
 });
