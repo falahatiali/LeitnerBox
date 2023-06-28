@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\VerifyEmailQueued;
+use App\Trait\UserRelations;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, UserRelations;
 
     protected $fillable = [
         'name',
@@ -36,5 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmailQueued);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('name', 'admin')->exists();
     }
 }
